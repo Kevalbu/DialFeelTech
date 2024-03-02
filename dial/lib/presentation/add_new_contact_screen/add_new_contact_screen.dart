@@ -1,11 +1,4 @@
 import 'package:dial/core/app_export.dart';
-import 'package:dial/widgets/custom_app_text_form_field.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:dial/core/utils/app_fonts.dart';
-
-import '../../core/utils/color_constant.dart';
-import '../../core/utils/size_utils.dart';
 import 'controller/add_new_contact_screen_controller.dart';
 
 class AddNewContactScreen extends GetWidget<AddNewContactScreenController> {

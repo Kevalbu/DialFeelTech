@@ -110,6 +110,42 @@ class ApiService extends GetConnect {
     }
   }
 
+  Future<Response> callDeleteApi(
+      {required url,
+      bool showLoader = true,
+      bool headerWithToken = true}) async {
+    if (isLogPrint) {
+      log("API :- $url");
+      log("API :- ${isLogPrint.toString()}");
+    }
+
+    if (showLoader) {
+      ProgressDialogUtils.showProgressDialog(isCancellable: false);
+    }
+    await initApiService();
+
+    final response = await delete(
+      url,
+      headers: headerWithToken ? headersWithToken : headers,
+      contentType: contentType,
+    );
+    if (isLogPrint) {
+      log("RESPONSE :- ${response.body}");
+    }
+
+    if (response.status.hasError) {
+      if (showLoader) {
+        ProgressDialogUtils.hideProgressDialog();
+      }
+      return response;
+    } else {
+      if (showLoader) {
+        ProgressDialogUtils.hideProgressDialog();
+      }
+      return response;
+    }
+  }
+
   Future<FormData> getBlankApiBody() async {
     final form = FormData({});
     return form;

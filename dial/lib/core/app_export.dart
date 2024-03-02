@@ -20,3 +20,4 @@ export '../../../core/utils/progress_dialog_utils.dart';
 export 'package:dial/core/utils/app_prefs_key.dart';
 export 'package:dial/core/utils/pref_utils.dart';
 export 'package:dial/routes/app_routes.dart';
+export '../../../core/utils/network_url.dart';

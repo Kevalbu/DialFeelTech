@@ -65,12 +65,13 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                                         .map((v) => Obx(
                                               () => RadioListTile<String>(
                                                 groupValue: controller
-                                                    .currentTimeValue.value,
+                                                    .currentSelectedValue.value,
                                                 title: Text(v.label ?? ''),
                                                 value: v.value ?? '',
                                                 onChanged: (val) {
                                                   debugPrint('VAL = $val');
-                                                  controller.currentTimeValue
+                                                  controller
+                                                      .currentSelectedValue
                                                       .value = val!;
                                                   controller.selectedListItem
                                                       .value = v.label ?? '';
@@ -526,7 +527,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontWeight: FontWeight.w500,
                       fontColor: ColorConstant.red),
                 ),
-                onTap: () {},
+                onTap: () {
+                  controller.deleteListApi();
+                },
               ),
               Padding(
                 padding: EdgeInsets.symmetric(

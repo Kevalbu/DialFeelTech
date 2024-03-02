@@ -33,7 +33,7 @@ class DashBoardScreenController extends GetxController {
     tabIndex.value = index;
   }
 
-  RxString currentTimeValue = ''.obs;
+  RxString currentSelectedValue = ''.obs;
   RxString selectedListItem = ''.obs;
 
   final List<TimeValue> lists = [
@@ -96,7 +96,23 @@ class DashBoardScreenController extends GetxController {
             .map((data) => ListGetModel.fromJson(data))
             .toList();
         selectedListItem.value = getListModel.value[0].label ?? '';
-        currentTimeValue.value = getListModel.value[0].value ?? '';
+        currentSelectedValue.value = getListModel.value[0].value ?? '';
+      }
+    });
+  }
+
+  Future<void> deleteListApi() async {
+    await ApiService()
+        .callDeleteApi(
+            headerWithToken: true,
+            showLoader: true,
+            url: '${NetworkUrl.deleteListUrl}$currentSelectedValue')
+        .then((value) async {
+      if (value.statusCode == 200) {
+        await getListApi();
+        Get.back();
+        ProgressDialogUtils.showTitleSnackBar(
+            headerText: value.body['message']);
       }
     });
   }
