@@ -33,8 +33,8 @@ class DashBoardScreenController extends GetxController {
     tabIndex.value = index;
   }
 
-  RxInt currentTimeValue = 30.obs;
-  RxString selectedListItem = 'Default'.obs;
+  RxString currentTimeValue = ''.obs;
+  RxString selectedListItem = ''.obs;
 
   final List<TimeValue> lists = [
     TimeValue(30, "Default"),
@@ -95,6 +95,8 @@ class DashBoardScreenController extends GetxController {
         getListModel.value = (value.body as List)
             .map((data) => ListGetModel.fromJson(data))
             .toList();
+        selectedListItem.value = getListModel.value[0].label ?? '';
+        currentTimeValue.value = getListModel.value[0].value ?? '';
       }
     });
   }

@@ -61,19 +61,19 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                                 Expanded(
                                   child: ListView(
                                     padding: EdgeInsets.all(8.0),
-                                    children: controller.lists
-                                        .map((timeValue) => Obx(
-                                              () => RadioListTile<int>(
+                                    children: controller.getListModel
+                                        .map((v) => Obx(
+                                              () => RadioListTile<String>(
                                                 groupValue: controller
                                                     .currentTimeValue.value,
-                                                title: Text(timeValue.value),
-                                                value: timeValue.key,
+                                                title: Text(v.label ?? ''),
+                                                value: v.value ?? '',
                                                 onChanged: (val) {
                                                   debugPrint('VAL = $val');
                                                   controller.currentTimeValue
                                                       .value = val!;
                                                   controller.selectedListItem
-                                                      .value = timeValue.value;
+                                                      .value = v.label ?? '';
                                                   Get.back();
                                                 },
                                               ),
