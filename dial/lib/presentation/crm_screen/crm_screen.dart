@@ -1,4 +1,5 @@
 import 'package:dial/core/app_export.dart';
+import 'package:intl/intl.dart';
 import 'controller/crm_screen_controller.dart';
 
 class CRMScreen extends GetWidget<CRMScreenController> {
@@ -93,10 +94,14 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                   color: ColorConstant.primaryBlue,
                   size: 40,
                 ),
-                const Icon(
-                  Icons.search_rounded,
-                  color: ColorConstant.primaryBlue,
-                  size: 40,
+                InkWell(onTap: (){
+                  Get.put(CRMScreenController()).getContactApi();
+                },
+                  child: const Icon(
+                    Icons.search_rounded,
+                    color: ColorConstant.primaryBlue,
+                    size: 40,
+                  ),
                 ),
               ],
             ),
@@ -178,7 +183,7 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Kishan',
+                                      controller.getContactModel.value[index].name??'',
                                       style: DL.styleDL(
                                         fontSize: (15),
                                         fontColor: ColorConstant.primaryBlack,
@@ -205,7 +210,7 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                                               color: ColorConstant.yellow,
                                             ),
                                             Text(
-                                              '64',
+                                              controller.getContactModel.value[index].leadScore.toString(),
                                               style: DL.styleDL(
                                                   fontSize: (15),
                                                   fontColor: ColorConstant
@@ -218,7 +223,7 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                                   ],
                                 ),
                                 Text(
-                                  '+911234567890',
+                                  controller.getContactModel.value[index].mobile1.toString(),
                                   style: DL.styleDL(
                                     fontSize: (15),
                                     fontColor: ColorConstant.primaryBlack,
@@ -235,7 +240,7 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                                       width: getWidth(10),
                                     ),
                                     Text(
-                                      'Feb 24,2024 4:29 PM',
+                                        DateFormat('dd-yy-mm').format(controller.getContactModel.value[index].createdDate??DateTime.now()),
                                       style: DL.styleDL(
                                         fontSize: (12),
                                         fontColor: ColorConstant.greyColor72,

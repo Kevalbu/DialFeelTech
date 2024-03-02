@@ -5,4 +5,5 @@ class NetworkUrl {
   static const String getListNameUrl = '$baseUrl/api/v1/List?Option=true';
   static const String addContactUrl = '$baseUrl/api/v1/Contact';
   static const String deleteListUrl = '$baseUrl/api/v1/List/';
+  static const String getContactNameUrl = '$baseUrl/api/v1/Contact';
 }
