@@ -1,12 +1,35 @@
 import '../../../core/app_export.dart';
+import '../../../core/utils/network_url.dart';
+import '../Model/GetContactModel.dart';
 
 class CRMScreenController extends GetxController {
   RxInt selectedContacts = 0.obs;
-
+  RxList<GetContactModel> getContactModel = <GetContactModel>[].obs;
   void changeContact(int index) {
     selectedContacts.value = index;
   }
-}
+
+  @override
+  void onInit() {
+    getContactApi();
+    super.onInit();
+  }
+Future<void> getContactApi() async {
+  await ApiService()
+      .callGetApi(
+      headerWithToken: true,
+      showLoader: false,
+      url: NetworkUrl.getContactNameUrl)
+      .then((value) {
+    if (value.statusCode == 200) {
+      getContactModel.value = (value.body as List)
+          .map((data) => GetContactModel.fromJson(data))
+          .toList();
+
+
+    }
+  });
+}}
 
 // Future<void> callDeleteAccountApi() async {
 //   isLoadingDelete.value = true;
