@@ -1,9 +1,4 @@
 import 'package:dial/core/app_export.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../config/responsive.dart';
-import 'color_constant.dart';
 
 class ProgressDialogUtils {
   static bool isProgressVisible = false;

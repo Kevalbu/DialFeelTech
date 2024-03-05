@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
+
 import '../core/utils/color_constant.dart';
 import '../core/utils/progress_dialog_utils.dart';
 

@@ -1,4 +1,5 @@
 import 'package:dial/core/app_export.dart';
+
 import 'controller/add_new_contact_screen_controller.dart';
 
 class AddNewContactScreen extends GetWidget<AddNewContactScreenController> {
@@ -29,38 +30,89 @@ class AddNewContactScreen extends GetWidget<AddNewContactScreenController> {
                   height: getHeight(20),
                 ),
                 textFields(
+                    controller: controller.phoneController,
                     labelText: AppString.phoneNumber,
+                    inputFormatters: [LengthLimitingTextInputFormatter(10)],
                     keyboardType: TextInputType.phone),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.name),
+                textFields(
+                    controller: controller.phone2Controller,
+                    inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                    labelText: AppString.phoneNumberSecondary,
+                    keyboardType: TextInputType.phone),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.email),
+                textFields(
+                    labelText: AppString.name,
+                    controller: controller.nameController),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.companyName),
+                textFields(
+                    labelText: AppString.email,
+                    controller: controller.emailController),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.address),
+                textFields(
+                    labelText: AppString.companyName,
+                    controller: controller.companyController),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.extra),
+                textFields(
+                    labelText: AppString.address,
+                    controller: controller.addressController),
                 SizedBox(
                   height: getHeight(10),
                 ),
-                textFields(labelText: AppString.remarks),
+                textFields(
+                    labelText: AppString.leadScore,
+                    keyboardType: TextInputType.phone,
+                    controller: controller.leadScoreController),
                 SizedBox(
-                  height: getHeight(130),
+                  height: getHeight(10),
+                ),
+                textFields(
+                    labelText: AppString.dealValue,
+                    keyboardType: TextInputType.phone,
+                    controller: controller.dealController),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                textFields(
+                    labelText: AppString.qualification,
+                    keyboardType: TextInputType.phone,
+                    controller: controller.quaController),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                textFields(
+                    labelText: AppString.extra,
+                    controller: controller.extraController),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                textFields(
+                    labelText: AppString.remarks,
+                    controller: controller.remarkController),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                textFields(
+                    labelText: AppString.note,
+                    controller: controller.noteController),
+                SizedBox(
+                  height: getHeight(20),
                 ),
                 AppElevatedButton(
                   buttonName: AppString.save,
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.addContact();
+                  },
                 )
               ],
             ),
@@ -68,10 +120,16 @@ class AddNewContactScreen extends GetWidget<AddNewContactScreenController> {
         ));
   }
 
-  Widget textFields({required String labelText, TextInputType? keyboardType}) {
+  Widget textFields(
+      {required String labelText,
+      TextInputType? keyboardType,
+      List<TextInputFormatter>? inputFormatters,
+      required TextEditingController controller}) {
     return TextFormField(
       cursorColor: ColorConstant.primaryBlack,
+      controller: controller,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: DL.styleDL(

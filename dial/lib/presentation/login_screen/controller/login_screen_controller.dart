@@ -1,16 +1,6 @@
-import 'dart:async';
-
-import 'package:dial/ApiServices/api_service.dart';
 import 'package:dial/core/app_export.dart';
-import 'package:dial/core/utils/app_prefs_key.dart';
 import 'package:dial/core/utils/common_constant.dart';
 import 'package:dial/presentation/login_screen/models/login_model.dart';
-import 'package:get/get.dart';
-
-import '../../../core/utils/network_url.dart';
-import '../../../core/utils/pref_utils.dart';
-import '../../../core/utils/progress_dialog_utils.dart';
-import '../../../core/utils/string_constant.dart';
 
 class LoginScreenController extends GetxController {
   RxBool isShow = true.obs;

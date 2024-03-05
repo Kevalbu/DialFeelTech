@@ -6,7 +6,6 @@ import 'package:dial/presentation/tasks_screen/tasks_screen.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import '../../../core/app_export.dart';
-import '../../../core/utils/network_url.dart';
 
 class DashBoardScreenController extends GetxController {
   var tabIndex = 0.obs;
@@ -57,32 +56,31 @@ class DashBoardScreenController extends GetxController {
     return Future.value(true);
   }
 
-  void addList() {
+  Future<void> addList() async {
     if (addListNameController.text.isNotEmpty) {
+      Get.back();
+      await callAddListNameApi();
+      getListApi();
     } else {
       ProgressDialogUtils.showTitleSnackBar(
           headerText: AppString.enterNameValidate);
     }
   }
 
-  // Future<void> callAddListNameApi() async {
-  //   await ApiService().callPostApi(
-  //       body: {"name": addListNameController.text},
-  //       headerWithToken: true,
-  //       showLoader: false,
-  //       url: NetworkUrl.addListNameUrl).then((value) {
-  //     if (value.statusCode == 200) {
-  //       PrefUtils.setString(
-  //           PrefsKey.authToken, loginModel.value.accessToken ?? '');
-  //       PrefUtils.setString(PrefsKey.isLogin, '1');
-  //       Get.offAllNamed(AppRoutes.permissionScreenRout);
-  //     } else {
-  //       PrefUtils.setString(PrefsKey.isLogin, '0');
-  //       ProgressDialogUtils.showSnackBar(
-  //           bodyText: loginModel.value.message, headerText: AppString.error);
-  //     }
-  //   });
-  // }
+  Future<void> callAddListNameApi() async {
+    await ApiService().callPostApi(
+        body: {"name": addListNameController.text},
+        headerWithToken: true,
+        isBranch: true,
+        showLoader: true,
+        url: NetworkUrl.addListNameUrl).then((value) {
+      if (value.statusCode == 200) {
+        Get.back();
+        ProgressDialogUtils.showTitleSnackBar(
+            headerText: value.body['message']);
+      }
+    });
+  }
 
   Future<void> getListApi() async {
     await ApiService()
@@ -97,6 +95,8 @@ class DashBoardScreenController extends GetxController {
             .toList();
         selectedListItem.value = getListModel.value[0].label ?? '';
         currentSelectedValue.value = getListModel.value[0].value ?? '';
+        PrefUtils.setString(
+            PrefsKey.selectListId, getListModel.value[0].value ?? '');
       }
     });
   }
@@ -106,7 +106,44 @@ class DashBoardScreenController extends GetxController {
         .callDeleteApi(
             headerWithToken: true,
             showLoader: true,
-            url: '${NetworkUrl.deleteListUrl}$currentSelectedValue')
+            url: '${NetworkUrl.deleteListUrl}${currentSelectedValue.value}')
+        .then((value) async {
+      if (value.statusCode == 200) {
+        await getListApi();
+        Get.back();
+        ProgressDialogUtils.showTitleSnackBar(
+            headerText: value.body['message']);
+      }
+    });
+  }
+
+  Future<void> rechurnListApi() async {
+    await ApiService().callPutApi(
+        body: {
+          "listId": currentSelectedValue.value,
+          "enums": [
+            2,
+          ],
+          "dispositionId": ["0ea78c56-7fef-48b8-9eb7-08dc345c01d5"]
+        },
+        headerWithToken: true,
+        showLoader: true,
+        url: NetworkUrl.rechurnListUrl).then((value) async {
+      if (value.statusCode == 200) {
+        await getListApi();
+        Get.back();
+        ProgressDialogUtils.showTitleSnackBar(
+            headerText: value.body['message']);
+      }
+    });
+  }
+
+  Future<void> emptyListApi() async {
+    await ApiService()
+        .callDeleteApi(
+            headerWithToken: true,
+            showLoader: true,
+            url: '${NetworkUrl.emptyListUrl}$currentSelectedValue')
         .then((value) async {
       if (value.statusCode == 200) {
         await getListApi();

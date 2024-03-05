@@ -1,8 +1,8 @@
 import 'package:call_log/call_log.dart';
 import 'package:dial/core/app_export.dart';
+
 import '../../widgets/numPad.dart';
 import 'controller/custom_dialer_screen_controller.dart';
-import 'dart:math' as math;
 
 class CustomDialerScreen extends GetWidget<CustomDialerScreenController> {
   const CustomDialerScreen({super.key});

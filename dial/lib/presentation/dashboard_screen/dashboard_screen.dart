@@ -1,11 +1,6 @@
-import 'dart:ffi';
-
 import 'package:dial/core/app_export.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:get/get.dart';
 
-import '../../routes/app_routes.dart';
 import 'controller/dashbboard_screen_controller.dart';
 
 class DashBoardScreen extends GetWidget<DashBoardScreenController> {
@@ -73,6 +68,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                                                   controller
                                                       .currentSelectedValue
                                                       .value = val!;
+                                                  PrefUtils.setString(
+                                                      PrefsKey.selectListId,
+                                                      val ?? '');
                                                   controller.selectedListItem
                                                       .value = v.label ?? '';
                                                   Get.back();
@@ -482,7 +480,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontWeight: FontWeight.w500,
                       fontColor: ColorConstant.primaryBlue),
                 ),
-                onTap: () {},
+                onTap: () {
+                  controller.rechurnListApi();
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -512,7 +512,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontWeight: FontWeight.w500,
                       fontColor: ColorConstant.primaryBlue),
                 ),
-                onTap: () {},
+                onTap: () {
+                  controller.emptyListApi();
+                },
               ),
               ListTile(
                 leading: Icon(

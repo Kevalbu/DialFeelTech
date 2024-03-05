@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../app_export.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../app_export.dart';
 
 class CommonConstant {
   CommonConstant._();

@@ -6,4 +6,5 @@ abstract class PrefsKey {
 
   static const String authToken = 'auth_token';
   static const String isLogin = 'is_login';
+  static const String selectListId = 'select_list_id';
 }

@@ -1,14 +1,8 @@
-import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:dial/core/app_export.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:dial/core/utils/app_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/utils/color_constant.dart';
-import '../../core/utils/size_utils.dart';
 import 'controller/call_dial_detail_screen_controller.dart';
 
 class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
