@@ -12,7 +12,9 @@ class TaskScreen extends GetWidget<TaskScreenController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: getWidth(16),),
+      padding: EdgeInsets.symmetric(
+        horizontal: getWidth(16),
+      ),
       child: Column(
         children: [
           Row(
@@ -24,10 +26,11 @@ class TaskScreen extends GetWidget<TaskScreenController> {
                     fontWeight: FontWeight.bold,
                     fontColor: ColorConstant.primaryBlack),
               ),
-
             ],
           ),
-          SizedBox(height: getHeight(40),),
+          SizedBox(
+            height: getHeight(40),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -74,8 +77,8 @@ class TaskScreen extends GetWidget<TaskScreenController> {
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
-                      border:
-                          Border.all(color: ColorConstant.primaryBlue, width: 2),
+                      border: Border.all(
+                          color: ColorConstant.primaryBlue, width: 2),
                       color: controllerT.selectedContacts.value == 1
                           ? ColorConstant.primaryBlue
                           : Colors.white,
@@ -96,7 +99,9 @@ class TaskScreen extends GetWidget<TaskScreenController> {
               ),
             ],
           ),
-          SizedBox(height: getHeight(40),),
+          SizedBox(
+            height: getHeight(40),
+          ),
           SizedBox(
             height: getHeight(100),
             child: ListView.builder(
@@ -127,7 +132,8 @@ class TaskScreen extends GetWidget<TaskScreenController> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 3,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
                             ),
                           ],
                           border: Border.all(color: Colors.black),
@@ -154,9 +160,10 @@ class TaskScreen extends GetWidget<TaskScreenController> {
                                 style: DL.styleDL(
                                   fontSize: (12),
                                   fontWeight: FontWeight.w900,
-                                  fontColor: controllerT.selectDate.value == index
-                                      ? Colors.white
-                                      : Colors.black,
+                                  fontColor:
+                                      controllerT.selectDate.value == index
+                                          ? Colors.white
+                                          : Colors.black,
                                 ),
                               ),
                             ),
@@ -179,42 +186,51 @@ class TaskScreen extends GetWidget<TaskScreenController> {
               },
             ),
           ),
-          SizedBox(height: getHeight(40),),
+          SizedBox(
+            height: getHeight(40),
+          ),
           Expanded(
-            child: InkWell(onTap: (){
-              Get.toNamed(AppRoutes.addTaskScreenRout);
-            },
-              child: ListView.builder(itemCount: 5,itemBuilder: (context, index) {
-                return  Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('11:23\nPM'),
-                    SizedBox(width: getWidth(40),),
-
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: getWidth(150),
-                        child: Center(child: Text('Hemal Ramani,\nFlutter\njf\ncf')),
-                        decoration: BoxDecoration(  boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
-                  ],
-                );
+            child: InkWell(
+              onTap: () {
+                Get.toNamed(AppRoutes.addTaskScreenRout);
               },
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('11:23\nPM'),
+                      SizedBox(
+                        width: getWidth(40),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: getWidth(150),
+                          child: Center(
+                              child: Text('Hemal Ramani,\nFlutter\njf\ncf')),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
               ),
             ),
           ),
-
         ],
       ),
     );
