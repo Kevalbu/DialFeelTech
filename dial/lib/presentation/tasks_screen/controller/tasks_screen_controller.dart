@@ -1,6 +1,20 @@
 import '../../../core/app_export.dart';
 
 class TaskScreenController extends GetxController {
+  RxInt selectedContacts = 0.obs;
+  RxInt selectDate = 0.obs;
+  void changeContact(int index) {
+    selectedContacts.value = index;
+  }
+  void changeDate(int index) {
+    selectDate.value = index;
+  }
+  var isClicked = false.obs;
+
+  void changeColor() {
+    isClicked.value = !isClicked.value;
+  }
+
   @override
   void onInit() {
     changeRoute();
@@ -9,13 +23,7 @@ class TaskScreenController extends GetxController {
 
   void changeRoute() {
     String isLogin = PrefUtils.getString(PrefsKey.authToken);
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      if (isLogin == '0') {
-        Get.offAllNamed(AppRoutes.loginScreenRoute);
-      } else {
-        Get.offAllNamed(AppRoutes.dashboardScreenRout);
-      }
-    });
+
   }
 }
 

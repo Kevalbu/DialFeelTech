@@ -54,6 +54,8 @@ class AppString {
   static const String notification = 'Notification';
   static const String location = 'Location';
   static const String allContacts = 'All Contacts';
+  static const String Todo = 'TODO';
+  static const String Done = 'DONE';
   static const String contacts = 'Contacts';
   static const String myContacts = 'My Contacts';
   static const String callLog = 'Call Log';
