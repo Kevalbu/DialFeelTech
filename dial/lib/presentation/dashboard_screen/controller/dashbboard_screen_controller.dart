@@ -19,7 +19,7 @@ class DashBoardScreenController extends GetxController {
   final pages = [
     DialerScreen(),
     CRMScreen(),
-    const TaskScreen(),
+    TaskScreen(),
     const SettingsScreen()
   ];
 

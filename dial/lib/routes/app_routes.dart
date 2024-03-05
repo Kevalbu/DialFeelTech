@@ -1,3 +1,5 @@
+import 'package:dial/presentation/Add_task/addtasks_screen.dart';
+import 'package:dial/presentation/Add_task/binding/addtasks_screen_binding.dart';
 import 'package:dial/presentation/add_new_contact_screen/add_new_contact_screen.dart';
 import 'package:dial/presentation/add_new_contact_screen/binding/add_new_contact_screen_binding.dart';
 import 'package:dial/presentation/call_dial_detail_screen/binding/call_dial_detail_screen_binding.dart';
@@ -23,6 +25,7 @@ class AppRoutes {
   static const String callDialDetailScreenRout = '/call_dial_detail_screen';
   static const String customDialerScreenRout = '/custom_dialer_screen';
   static const String addNewContactScreenRout = '/add_new_contact_screen';
+  static const String addTaskScreenRout = '/addtask_screen';
 
   static List<GetPage> pages = [
     GetPage(
@@ -79,6 +82,13 @@ class AppRoutes {
           AddNewContactScreenBinding(),
         ],
         transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 150)),
+    GetPage(
+        name: addTaskScreenRout,
+        page: () =>  AddTaskScreen(),
+        bindings: [
+          AddTaskScreenBinding(),
+        ],
         transitionDuration: const Duration(milliseconds: 150)),
   ];
 }
