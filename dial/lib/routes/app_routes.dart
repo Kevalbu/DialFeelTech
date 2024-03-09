@@ -1,5 +1,4 @@
 import 'package:dial/presentation/Add_task/addtasks_screen.dart';
-import 'package:dial/presentation/Add_task/binding/addtasks_screen_binding.dart';
 import 'package:dial/presentation/add_new_contact_screen/add_new_contact_screen.dart';
 import 'package:dial/presentation/add_new_contact_screen/binding/add_new_contact_screen_binding.dart';
 import 'package:dial/presentation/call_dial_detail_screen/binding/call_dial_detail_screen_binding.dart';
@@ -14,6 +13,7 @@ import 'package:dial/presentation/permission_screen/binding/permission_screen_bi
 import 'package:dial/presentation/permission_screen/permission_screen.dart';
 import 'package:get/get.dart';
 
+import '../presentation/Add_task/binding/addtasks_screen_binding.dart';
 import '../presentation/splash_screen/binding/splash_screen_binding.dart';
 import '../presentation/splash_screen/splash_screen.dart';
 
