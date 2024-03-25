@@ -125,9 +125,7 @@ class CRMScreen extends GetWidget<CRMScreenController> {
                                 SizedBox(
                                   height: getHeight(200),
                                 ),
-                                CircularProgressIndicator(
-                                  color: ColorConstant.primaryBlue,
-                                ),
+                                ProgressDialogUtils.loading()
                               ],
                             )
                           : controller.getContactModel.value.isEmpty

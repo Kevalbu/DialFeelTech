@@ -61,14 +61,18 @@ class DialerScreen extends GetWidget<DialerScreenController> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: getHeight(80)),
-                                  child: Text(
-                                    'No Contact',
-                                    style: DL.styleDL(
-                                      fontSize: 18,
-                                      fontColor: ColorConstant.primaryWhite,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  child: controllerD.loadingContact.value
+                                      ? ProgressDialogUtils.loading(
+                                          color: ColorConstant.primaryWhite)
+                                      : Text(
+                                          'No Contact',
+                                          style: DL.styleDL(
+                                            fontSize: 18,
+                                            fontColor:
+                                                ColorConstant.primaryWhite,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ),
                               )
                             : Column(

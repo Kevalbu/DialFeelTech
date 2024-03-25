@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dial/core/app_export.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:intl/intl.dart';
 
 import 'controller/call_dial_detail_screen_controller.dart';
+import 'models/disposition_model.dart';
 
 class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
   const CallDialDetailScreen({super.key});
@@ -11,14 +14,7 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
   @override
   Widget build(BuildContext context) {
     sizeCalculate(context);
-    final List<String> items = [
-      'Item1',
-      'Item2',
-      'Item3',
-      'Item4',
-    ];
 
-    String? selectedValue;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: ColorConstant.primaryWhite,
@@ -130,160 +126,180 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                       ),
                       color: Colors.white,
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2<String>(
-                        isExpanded: true,
-                        hint: const Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'CALLBACK',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorConstant.primaryBlack,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                        items: items
-                            .map((String item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
+                    child: Obx(
+                      () => DropdownButtonHideUnderline(
+                        child: DropdownButton2<DispositionModel>(
+                          isExpanded: true,
+                          hint: const Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  AppString.selectStatus,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorConstant.primaryBlack,
                                   ),
-                                ))
-                            .toList(),
-                        value: selectedValue,
-                        onChanged: (String? value) {},
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          items: controller.dispositionList
+                              .map((DispositionModel item) =>
+                                  DropdownMenuItem<DispositionModel>(
+                                    value: item,
+                                    child: Text(
+                                      item.name?.toUpperCase() ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
+                              .toList(),
+                          value: controller.selectedValue?.value,
+                          onChanged: (DispositionModel? value) {
+                            controller.selectedValue?.value = value!;
+                            controller.dispositionId.value = value?.id ?? '';
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: getHeight(10)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Your other UI elements
-                    SizedBox(height: getHeight(10)),
-                    Text(
-                      'Remind On',
-                      style: DL.styleDL(
-                        fontSize: 12,
-                        fontColor: ColorConstant.primaryBlack,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: getHeight(10)),
-                    Container(
-                      height: 40,
-                      child: TextFormField(
-                        readOnly: true,
-                        textAlign: TextAlign.center, // Center align the text
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime(2100),
-                            builder: (BuildContext context, Widget? child) {
-                              return Theme(
-                                data: ThemeData.light().copyWith(
-                                  colorScheme: const ColorScheme.light(
-                                    primary: ColorConstant
-                                        .primaryBlue, // OK button color
-                                    onPrimary: ColorConstant
-                                        .primaryWhite, // Text color of OK button
-                                    surface: ColorConstant
-                                        .primaryWhite, // Cancel button color
-                                    onSurface: ColorConstant
-                                        .primaryBlack, // Text color of Cancel button
+                Obx(
+                  () => controller.selectedValue.value.name == 'CallBack'
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Your other UI elements
+                            SizedBox(height: getHeight(10)),
+                            Text(
+                              'Remind On',
+                              style: DL.styleDL(
+                                fontSize: 12,
+                                fontColor: ColorConstant.primaryBlack,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(height: getHeight(10)),
+                            Container(
+                              height: 40,
+                              child: TextFormField(
+                                readOnly: true,
+
+                                textAlign:
+                                    TextAlign.start, // Center align the text
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1950),
+                                    lastDate: DateTime(2100),
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData.light().copyWith(
+                                          colorScheme: const ColorScheme.light(
+                                            primary: ColorConstant
+                                                .primaryBlue, // OK button color
+                                            onPrimary: ColorConstant
+                                                .primaryWhite, // Text color of OK button
+                                            surface: ColorConstant
+                                                .primaryWhite, // Cancel button color
+                                            onSurface: ColorConstant
+                                                .primaryBlack, // Text color of Cancel button
+                                          ),
+                                        ),
+                                        child: child!,
+                                      );
+                                    },
+                                  );
+
+                                  if (pickedDate != null) {
+                                    TimeOfDay? pickedTime =
+                                        await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now(),
+                                      builder: (BuildContext context,
+                                          Widget? child) {
+                                        return Theme(
+                                          data: ThemeData.light().copyWith(
+                                            colorScheme:
+                                                const ColorScheme.light(
+                                              primary: ColorConstant
+                                                  .primaryBlue, // OK button color
+                                              onPrimary: ColorConstant
+                                                  .primaryWhite, // Text color of OK button
+                                              surface: ColorConstant
+                                                  .primaryWhite, // Cancel button color
+                                              onSurface: ColorConstant
+                                                  .primaryBlack, // Text color of Cancel button
+                                            ),
+                                          ),
+                                          child: child!,
+                                        );
+                                      },
+                                    );
+
+                                    if (pickedTime != null) {
+                                      pickedDate = DateTime(
+                                        pickedDate.year,
+                                        pickedDate.month,
+                                        pickedDate.day,
+                                        pickedTime.hour,
+                                        pickedTime.minute,
+                                      );
+
+                                      String formattedDateTime =
+                                          DateFormat('yyyy-MM-dd hh:mm a')
+                                              .format(pickedDate);
+                                      controller.pickDates.value =
+                                          DateFormat('yyyy-MM-dd')
+                                              .format(pickedDate);
+
+                                      print('121212  ${pickedDate}');
+                                      print(pickedTime);
+                                      controller.dateInput.text =
+                                          formattedDateTime;
+                                    }
+                                  }
+                                },
+                                controller: controller.dateInput,
+
+                                decoration: InputDecoration(
+                                  hintText: AppString.selectDateTime,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 5,
+                                  ), // Adjust vertical padding
+                                  prefixIcon: const Icon(Icons.date_range),
+                                  suffixIcon: InkWell(
+                                    onTap: () {
+                                      controller.dateInput.clear();
+                                    },
+                                    child: const Icon(Icons.close),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                child: child!,
-                              );
-                            },
-                          );
+                              ),
+                            ),
 
-                          if (pickedDate != null) {
-                            TimeOfDay? pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                              builder: (BuildContext context, Widget? child) {
-                                return Theme(
-                                  data: ThemeData.light().copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: ColorConstant
-                                          .primaryBlue, // OK button color
-                                      onPrimary: ColorConstant
-                                          .primaryWhite, // Text color of OK button
-                                      surface: ColorConstant
-                                          .primaryWhite, // Cancel button color
-                                      onSurface: ColorConstant
-                                          .primaryBlack, // Text color of Cancel button
-                                    ),
-                                  ),
-                                  child: child!,
-                                );
-                              },
-                            );
-
-                            if (pickedTime != null) {
-                              pickedDate = DateTime(
-                                pickedDate.year,
-                                pickedDate.month,
-                                pickedDate.day,
-                                pickedTime.hour,
-                                pickedTime.minute,
-                              );
-
-                              String formattedDateTime =
-                                  DateFormat('yyyy-MM-dd hh:mm a')
-                                      .format(pickedDate);
-                              String formattedDateTime1 =
-                                  DateFormat('yyyy-MM-dd hh:mm a')
-                                      .format(pickedDate);
-
-                              print('121212  ${pickedDate}');
-                              print(pickedTime);
-                              controller.dateInput.text = formattedDateTime;
-                            }
-                          }
-                        },
-                        controller: controller.dateInput,
-
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                          ), // Adjust vertical padding
-                          prefixIcon: const Icon(Icons.date_range),
-                          suffixIcon: InkWell(
-                            onTap: () {
-                              controller.dateInput.clear();
-                            },
-                            child: const Icon(Icons.close),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Your other UI elements
-                  ],
+                            // Your other UI elements
+                          ],
+                        )
+                      : SizedBox.shrink(),
                 ),
-                SizedBox(
-                  width: getWidth(20),
-                ),
+                Obx(() => controller.selectedValue.value.name == 'CallBack'
+                    ? SizedBox(
+                        height: getHeight(20),
+                      )
+                    : SizedBox.shrink()),
                 Obx(
                   () => Text(
                     'Lead Score ${controller.sliderValue.value.toString()}%',

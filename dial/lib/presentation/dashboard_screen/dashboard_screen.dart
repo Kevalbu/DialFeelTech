@@ -125,38 +125,39 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
           )
         ],
       ),
-      body: Stack(
-        children: [
-          PopScope(
-            canPop: true,
+      body: Obx(
+        () => PopScope(
+            canPop: controller.willPop.value,
             onPopInvoked: controller.onWillPop,
-            child: Obx(
-              () => controller.pages[controller.tabIndex.value],
-            ),
-          ),
-          Obx(() => controller.tabIndex.value == 0
-              ? Positioned(
-                  bottom: 17,
-                  right: 17,
-                  child: InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.customDialerScreenRout);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: ColorConstant.primaryBlue),
-                      padding: EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.call,
-                        color: ColorConstant.primaryWhite,
-                        size: getHeight(30),
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink())
-        ],
+            child: Stack(
+              children: [
+                Obx(
+                  () => controller.pages[controller.tabIndex.value],
+                ),
+                Obx(() => controller.tabIndex.value == 0
+                    ? Positioned(
+                        bottom: 17,
+                        right: 17,
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.customDialerScreenRout);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: ColorConstant.primaryBlue),
+                            padding: EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.call,
+                              color: ColorConstant.primaryWhite,
+                              size: getHeight(30),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink())
+              ],
+            )),
       ),
 
       floatingActionButtonLocation: ExpandableFab.location,

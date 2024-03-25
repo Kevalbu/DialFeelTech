@@ -4,58 +4,61 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:dial/core/utils/app_fonts.dart';
 import 'package:intl/intl.dart';
 
-
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/size_utils.dart';
 
 import 'controller/addtasks_screen_controller.dart';
-
 
 class AddTaskScreen extends GetWidget<AddTaskScreenController> {
   AddTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-      elevation: 3,
-      surfaceTintColor: ColorConstant.primaryWhite,
-      shadowColor: ColorConstant.greyColor72,
-      backgroundColor: ColorConstant.primaryWhite,
-      title: Text(
-        AppString.tasks,
-        style: DL.styleDL(fontWeight: FontWeight.w600, fontSize: 18),
+        elevation: 3,
+        surfaceTintColor: ColorConstant.primaryWhite,
+        shadowColor: ColorConstant.greyColor72,
+        backgroundColor: ColorConstant.primaryWhite,
+        title: Text(
+          AppString.tasks,
+          style: DL.styleDL(fontWeight: FontWeight.w600, fontSize: 18),
+        ),
       ),
-    ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Choose Contact',hintText: 'serch name or phone',),
+                decoration: InputDecoration(
+                  labelText: 'Choose Contact',
+                  hintText: 'serch name or phone',
+                ),
               ),
               SizedBox(height: getHeight(20)),
               TextFormField(
-          
-                decoration: InputDecoration(labelText: 'Task Name',hintText: 'Task Name'),
+                decoration: InputDecoration(
+                    labelText: 'Task Name', hintText: 'Task Name'),
               ),
               SizedBox(height: getHeight(20)),
               TextFormField(
-          
-                decoration: InputDecoration(labelText: 'Description',hintText: 'Description'),
+                decoration: InputDecoration(
+                    labelText: 'Description', hintText: 'Description'),
               ),
               SizedBox(height: getHeight(20)),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    AppString.setreminder,
-                    style: DL.styleDL(fontWeight: FontWeight.w500, fontSize: 18),
+                    AppString.setReminder,
+                    style:
+                        DL.styleDL(fontWeight: FontWeight.w500, fontSize: 18),
                   ),
                   Obx(
-                        () => Switch(activeColor: ColorConstant.primaryBlue,
+                    () => Switch(
+                      activeColor: ColorConstant.primaryBlue,
                       value: controller.isReminderEnabled.value,
                       onChanged: controller.toggleReminder,
                     ),
@@ -63,14 +66,17 @@ class AddTaskScreen extends GetWidget<AddTaskScreenController> {
                 ],
               ),
               Divider(),
-
-              Obx(()=>
-                 Visibility(visible: controller.isReminderEnabled.value,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(
-                      AppString.remindon,
-                      style: DL.styleDL(fontWeight: FontWeight.w400, fontSize: 15),
-                    ),
+              Obx(
+                () => Visibility(
+                  visible: controller.isReminderEnabled.value,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppString.remindon,
+                        style: DL.styleDL(
+                            fontWeight: FontWeight.w400, fontSize: 15),
+                      ),
                       TextFormField(
                         readOnly: true,
                         textAlign: TextAlign.center, // Center align the text
@@ -132,8 +138,8 @@ class AddTaskScreen extends GetWidget<AddTaskScreenController> {
                               );
 
                               String formattedDateTime =
-                              DateFormat('yyyy-MM-dd hh:mm a')
-                                  .format(pickedDate);
+                                  DateFormat('yyyy-MM-dd hh:mm a')
+                                      .format(pickedDate);
                               controller.dateInput.text = formattedDateTime;
                             }
                           }
@@ -162,23 +168,25 @@ class AddTaskScreen extends GetWidget<AddTaskScreenController> {
               ),
               SizedBox(height: 20),
               Divider(),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     AppString.addCalendar,
-                    style: DL.styleDL(fontWeight: FontWeight.w500, fontSize: 18),
+                    style:
+                        DL.styleDL(fontWeight: FontWeight.w500, fontSize: 18),
                   ),
                   Obx(
-                        () => Switch(activeColor: ColorConstant.primaryBlue,
+                    () => Switch(
+                      activeColor: ColorConstant.primaryBlue,
                       value: controller.isRCalenderEnabled.value,
-                          onChanged: controller.Calender,
+                      onChanged: controller.Calender,
                     ),
                   ),
                 ],
               ),
-          
               SizedBox(height: 20),
-              AppElevatedButton(buttonName: 'save', onPressed: (){})
+              AppElevatedButton(buttonName: 'save', onPressed: () {})
             ],
           ),
         ),

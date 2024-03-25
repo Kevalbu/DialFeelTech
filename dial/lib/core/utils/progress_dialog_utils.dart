@@ -21,6 +21,17 @@ class ProgressDialogUtils {
     }
   }
 
+  static Widget loading({Color? color}) {
+    return SizedBox(
+      height: getHeight(25),
+      width: getHeight(25),
+      child: CircularProgressIndicator(
+        strokeWidth: 2.0,
+        color: color ?? ColorConstant.primaryBlue,
+      ),
+    );
+  }
+
   static void showProgressDialogSmall({isCancellable = false}) async {
     if (!isProgressVisible) {
       Get.dialog(
@@ -57,8 +68,8 @@ class ProgressDialogUtils {
     Get.closeAllSnackbars();
     Get.snackbar(headerText, bodyText,
         snackPosition: SnackPosition.BOTTOM,
-        colorText: ColorConstant.primaryBlack,
-        backgroundColor: ColorConstant.primaryBlue.withOpacity(0.4),
+        colorText: ColorConstant.primaryWhite,
+        backgroundColor: ColorConstant.primaryBlue.withOpacity(0.8),
         margin: margin ?? EdgeInsets.only(bottom: 26, left: 16, right: 16));
   }
 

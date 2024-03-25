@@ -7,6 +7,7 @@ import '../../dashboard_screen/models/single_contact_model.dart';
 
 class DialerScreenController extends GetxController {
   RxBool noContact = false.obs;
+  RxBool loadingContact = false.obs;
 
   Rx<SingleContactModel> singleContactModel = SingleContactModel().obs;
 
@@ -69,7 +70,7 @@ class DialerScreenController extends GetxController {
 
   Future<void> oneContactApi() async {
     String idList = PrefUtils.getString(PrefsKey.selectListId);
-
+    loadingContact.value = true;
     await ApiService()
         .callGetApi(
             headerWithToken: true,
@@ -78,10 +79,12 @@ class DialerScreenController extends GetxController {
         .then((value) async {
       if (value.statusCode == 200) {
         noContact.value = true;
+        loadingContact.value = false;
 
         singleContactModel.value = SingleContactModel.fromJson(value.body);
       } else {
         noContact.value = false;
+        loadingContact.value = false;
       }
     });
   }

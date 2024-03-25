@@ -5,11 +5,14 @@ class AppString {
   static const String yes = "Yes";
   static const String retry = 'Retry';
   static const String logout = 'Logout';
+  static const String selectDateTime = 'Select DateTime';
 
   static const String dial = 'Dial';
   static const String addCalendar = 'Add To Calender';
-  static const String setreminder = 'Set Reminder';
-  static const String remindon  = 'Remind on ';
+  static const String setReminder = 'Set Reminder';
+  static const String remindon = 'Remind on ';
+  static const String selectStatus = 'Select status';
+  static const String selectRemind = 'Please select remind on';
   static const String disposeCall = 'Dispose call';
   static const String error = 'ERROR';
   static const String login = 'Login';

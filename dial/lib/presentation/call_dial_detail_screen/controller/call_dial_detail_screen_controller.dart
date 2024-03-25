@@ -12,13 +12,16 @@ import '../models/disposition_model.dart';
 class CallDialDetailScreenController extends GetxController {
   TextEditingController dateInput = TextEditingController();
   RxString sliderValue = '0'.obs;
-  Rx<DateTime> pickDates = DateTime.now().obs;
+  RxString pickDates = ''.obs;
   var arguments = Get.arguments;
   RxString name = ''.obs;
   RxString number = ''.obs;
   RxString id = ''.obs;
+  RxString dispositionId = ''.obs;
   Rx<CallLogEntry> callLogList = CallLogEntry().obs;
   RxList<DispositionModel> dispositionList = <DispositionModel>[].obs;
+  // DispositionModel? selectedValue;
+  Rx<DispositionModel> selectedValue = DispositionModel().obs;
 
   @override
   void onInit() {
@@ -31,7 +34,16 @@ class CallDialDetailScreenController extends GetxController {
 
   Future<void> save() async {
     await callLogs();
-    afterCallApi();
+    if (selectedValue.value.name == 'CallBack') {
+      if (pickDates.value.isEmpty) {
+        ProgressDialogUtils.showTitleSnackBar(
+            headerText: AppString.selectRemind);
+      } else {
+        afterCallApi();
+      }
+    } else {
+      afterCallApi();
+    }
     print('dateInput ${dateInput.text}');
   }
 
@@ -71,6 +83,10 @@ class CallDialDetailScreenController extends GetxController {
         dispositionList.value = (value.body as List)
             .map((data) => DispositionModel.fromJson(data))
             .toList();
+        if (dispositionList.isNotEmpty) {
+          selectedValue.value = dispositionList.first;
+          dispositionId.value = selectedValue.value.id ?? '';
+        }
       } else {}
     });
   }
@@ -84,12 +100,12 @@ class CallDialDetailScreenController extends GetxController {
           "timeSpentOnCall": '${callLogList.value.duration.toString()}',
           "defaultDialer": 0,
           // "recordingFile": "",
-          "dnc": false,
+          "dnc": selectedValue.value.name == 'DNC' ? true : false,
           "leadScore": int.parse(sliderValue.value.split(".")[0]),
-          "callBack": true,
-          "remindOn": DateFormat(AppDateFormats.DATE_FORMAT_YYYY_MM_DD)
-              .format(pickDates.value),
-          "dispositionId": "7b79db88-bacc-4c07-de07-08dc2b961fc3"
+          "callBack": selectedValue.value.name == 'CallBack' ? true : false,
+          "remindOn":
+              selectedValue.value.name == 'CallBack' ? pickDates.value : null,
+          "dispositionId": dispositionId.value
         },
         headerWithToken: true,
         showLoader: true,

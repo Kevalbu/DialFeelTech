@@ -22,6 +22,7 @@ class DashBoardScreenController extends GetxController {
   RxList<DispositionModel> dispositionList = <DispositionModel>[].obs;
 
   RxBool dLoading = false.obs;
+  RxBool willPop = false.obs;
 
   final pages = [
     DialerScreen(),
@@ -41,6 +42,9 @@ class DashBoardScreenController extends GetxController {
 
     if (index == 0) {
       Get.put(DialerScreenController()).oneContactApi();
+    }
+    if (index == 1) {
+      Get.put(CRMScreenController()).getContactApi();
     }
   }
 
@@ -63,9 +67,24 @@ class DashBoardScreenController extends GetxController {
       currentBackPressTime = now;
       ProgressDialogUtils.showSnackBar(
           bodyText: AppString.exit, headerText: AppString.error);
+      willPop.value = false;
       return Future.value(false);
     }
+    willPop.value = true;
+
     return Future.value(true);
+  }
+
+  bool onWillPop1() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      ProgressDialogUtils.showSnackBar(
+          bodyText: AppString.exit, headerText: AppString.error);
+      return false;
+    }
+    return true;
   }
 
   Future<void> addList() async {
@@ -95,6 +114,8 @@ class DashBoardScreenController extends GetxController {
   }
 
   Future<void> getListApi() async {
+    Get.put(DialerScreenController()).loadingContact.value = true;
+
     await ApiService()
         .callGetApi(
             headerWithToken: true,
@@ -109,10 +130,13 @@ class DashBoardScreenController extends GetxController {
         currentSelectedValue.value = getListModel.value[0].value ?? '';
         await PrefUtils.setString(
             PrefsKey.selectListId, getListModel.value[0].value ?? '');
+        Get.put(DialerScreenController()).loadingContact.value = false;
         Get.put(DialerScreenController()).oneContactApi();
         Get.put(CRMScreenController()).getContactApi();
       } else if (value.statusCode == 401) {
         PrefUtils().clearPreferencesData();
+        Get.put(DialerScreenController()).loadingContact.value = false;
+
         await ProgressDialogUtils.showTitleSnackBar(
             headerText: value.body['message']);
         Get.offAllNamed(AppRoutes.loginScreenRoute);
