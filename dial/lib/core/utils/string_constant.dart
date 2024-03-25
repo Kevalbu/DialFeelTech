@@ -7,6 +7,9 @@ class AppString {
   static const String logout = 'Logout';
 
   static const String dial = 'Dial';
+  static const String addCalendar = 'Add To Calender';
+  static const String setreminder = 'Set Reminder';
+  static const String remindon  = 'Remind on ';
   static const String disposeCall = 'Dispose call';
   static const String error = 'ERROR';
   static const String login = 'Login';
