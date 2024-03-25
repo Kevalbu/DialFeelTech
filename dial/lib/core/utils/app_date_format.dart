@@ -25,6 +25,7 @@ class AppDateFormats {
   static const String DATE_FORMAT_EE = "EE";
   static const dateFormater_with_th_do_mmmm_yyyy_hh_mm = "do MMM, yyyy";
   static const String APP_PLAN_DATE_FORMAT_EE = "| EE | dd MMM";
+  static const String APP_PLAN_DATE_FORMAT_MMM = "MMM dd,yyyy HH:mm a";
 }
 
 // String dateToAgoFormat(String dateTime, String inputFormat) {

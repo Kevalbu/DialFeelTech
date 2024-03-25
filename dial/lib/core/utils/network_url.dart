@@ -9,4 +9,7 @@ class NetworkUrl {
   static const String getContactNameUrl = '$baseUrl/api/v1/Contact';
   static const String rechurnListUrl = '$baseUrl/api/v1/Contact/rechurn-list';
   static const String oneContactUrl = '$baseUrl/api/v1/Contact/dial/';
+  static const String skipUrl = '$baseUrl/api/v1/Contact/communication/';
+  static const String recordCallUrl = '$baseUrl/api/v1/Contact/record-call/';
+  static const String dispositionUrl = '$baseUrl/api/v1/Disposition';
 }

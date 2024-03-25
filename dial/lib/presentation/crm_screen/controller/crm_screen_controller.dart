@@ -3,6 +3,7 @@ import '../Model/GetContactModel.dart';
 
 class CRMScreenController extends GetxController {
   RxInt selectedContacts = 0.obs;
+  RxBool isLoading = false.obs;
   RxList<GetContactModel> getContactModel = <GetContactModel>[].obs;
   void changeContact(int index) {
     selectedContacts.value = index;
@@ -10,21 +11,27 @@ class CRMScreenController extends GetxController {
 
   @override
   void onInit() {
-    getContactApi();
     super.onInit();
   }
 
   Future<void> getContactApi() async {
+    isLoading.value = true;
+    String idList = PrefUtils.getString(PrefsKey.selectListId);
+
     await ApiService()
         .callGetApi(
             headerWithToken: true,
             showLoader: false,
-            url: NetworkUrl.getContactNameUrl)
+            url: '${NetworkUrl.getContactNameUrl}?ListId=$idList')
         .then((value) {
       if (value.statusCode == 200) {
+        isLoading.value = false;
+
         getContactModel.value = (value.body as List)
             .map((data) => GetContactModel.fromJson(data))
             .toList();
+      } else {
+        isLoading.value = false;
       }
     });
   }

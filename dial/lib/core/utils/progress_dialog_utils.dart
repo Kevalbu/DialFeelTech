@@ -71,7 +71,7 @@ class ProgressDialogUtils {
         margin: EdgeInsets.only(bottom: 26, left: 150, right: 150));
   }
 
-  static void showTitleSnackBar(
+  static showTitleSnackBar(
       {required headerText,
       Duration? duration = const Duration(seconds: 2),
       EdgeInsets? margin}) {

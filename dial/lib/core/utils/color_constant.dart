@@ -11,6 +11,7 @@ class ColorConstant {
   static Color primaryWhiteBlue = Color(0xFF113B8D).withOpacity(0.3);
   static const Color primaryBlack = Color(0xFF000000);
   static const Color greyText = Color(0xFF747474);
+  static const Color orange86 = Color(0xFFf8bb86);
   static const Color greyColord3 = Color(0xFFD3D3D3);
   static const Color greyBack = Color(0xFFF8FAFC);
   static const Color green = Color(0xFF52C952);

@@ -1,11 +1,15 @@
 import 'package:dial/presentation/crm_screen/crm_screen.dart';
 import 'package:dial/presentation/dashboard_screen/models/list_get_model.dart';
+import 'package:dial/presentation/dashboard_screen/models/single_contact_model.dart';
+import 'package:dial/presentation/dialer_screen/controller/dialer_screen_controller.dart';
 import 'package:dial/presentation/dialer_screen/dialer_screen.dart';
 import 'package:dial/presentation/settings_screen/settings_screen.dart';
 import 'package:dial/presentation/tasks_screen/tasks_screen.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import '../../../core/app_export.dart';
+import '../../call_dial_detail_screen/models/disposition_model.dart';
+import '../../crm_screen/controller/crm_screen_controller.dart';
 
 class DashBoardScreenController extends GetxController {
   var tabIndex = 0.obs;
@@ -14,6 +18,10 @@ class DashBoardScreenController extends GetxController {
   TextEditingController addListNameController = TextEditingController();
 
   RxList<ListGetModel> getListModel = <ListGetModel>[].obs;
+  RxList<String> dispositionIdList = <String>[].obs;
+  RxList<DispositionModel> dispositionList = <DispositionModel>[].obs;
+
+  RxBool dLoading = false.obs;
 
   final pages = [
     DialerScreen(),
@@ -30,6 +38,10 @@ class DashBoardScreenController extends GetxController {
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
+
+    if (index == 0) {
+      Get.put(DialerScreenController()).oneContactApi();
+    }
   }
 
   RxString currentSelectedValue = ''.obs;
@@ -88,15 +100,22 @@ class DashBoardScreenController extends GetxController {
             headerWithToken: true,
             showLoader: false,
             url: NetworkUrl.getListNameUrl)
-        .then((value) {
+        .then((value) async {
       if (value.statusCode == 200) {
         getListModel.value = (value.body as List)
             .map((data) => ListGetModel.fromJson(data))
             .toList();
         selectedListItem.value = getListModel.value[0].label ?? '';
         currentSelectedValue.value = getListModel.value[0].value ?? '';
-        PrefUtils.setString(
+        await PrefUtils.setString(
             PrefsKey.selectListId, getListModel.value[0].value ?? '');
+        Get.put(DialerScreenController()).oneContactApi();
+        Get.put(CRMScreenController()).getContactApi();
+      } else if (value.statusCode == 401) {
+        PrefUtils().clearPreferencesData();
+        await ProgressDialogUtils.showTitleSnackBar(
+            headerText: value.body['message']);
+        Get.offAllNamed(AppRoutes.loginScreenRoute);
       }
     });
   }
@@ -117,6 +136,40 @@ class DashBoardScreenController extends GetxController {
     });
   }
 
+  void rechurnSubmit() {
+    if (dispositionIdList.isEmpty) {
+      ProgressDialogUtils.showTitleSnackBar(
+          headerText: AppString.selectCallStatus);
+    } else {
+      rechurnListApi();
+    }
+  }
+
+  void rechurnReset() {
+    dispositionIdList.clear();
+    dispositionIdList.refresh();
+  }
+
+  Future<void> getDispositionApi() async {
+    dLoading.value = true;
+    await ApiService()
+        .callGetApi(
+            headerWithToken: true,
+            showLoader: false,
+            url: NetworkUrl.dispositionUrl)
+        .then((value) {
+      if (value.statusCode == 200) {
+        dLoading.value = false;
+
+        dispositionList.value = (value.body as List)
+            .map((data) => DispositionModel.fromJson(data))
+            .toList();
+      } else {
+        dLoading.value = false;
+      }
+    });
+  }
+
   Future<void> rechurnListApi() async {
     await ApiService().callPutApi(
         body: {
@@ -124,13 +177,13 @@ class DashBoardScreenController extends GetxController {
           "enums": [
             2,
           ],
-          "dispositionId": ["0ea78c56-7fef-48b8-9eb7-08dc345c01d5"]
+          "dispositionId": dispositionIdList
         },
         headerWithToken: true,
         showLoader: true,
         url: NetworkUrl.rechurnListUrl).then((value) async {
       if (value.statusCode == 200) {
-        await getListApi();
+        // await getListApi();
         Get.back();
         ProgressDialogUtils.showTitleSnackBar(
             headerText: value.body['message']);

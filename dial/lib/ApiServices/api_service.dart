@@ -29,7 +29,7 @@ class ApiService extends GetConnect {
       headers = {"content-type": "application/json"};
       headersWithBranchToken = {
         "content-type": "application/json",
-        "Branch": "1641133a-1e9d-4544-2021-08dc1c05945f",
+        "Branch": "085e3242-8b37-4d02-3891-08dc3d217223",
         "Authorization": "Bearer" + " " + "$authToken"
       };
       headersWithToken = {
@@ -92,11 +92,6 @@ class ApiService extends GetConnect {
       bool headerWithToken = true}) async {
     isLoading.value = true;
 
-    if (isLogPrint) {
-      log("API :- $url");
-      log("API :- ${isLogPrint.toString()}");
-    }
-
     if (showLoader) {
       ProgressDialogUtils.showProgressDialog(isCancellable: false);
     }
@@ -110,6 +105,9 @@ class ApiService extends GetConnect {
     isLoading.value = false;
 
     if (isLogPrint) {
+      log("API :- $url");
+
+      log("STATUS CODE :- ${response.statusCode}");
       log("RESPONSE :- ${response.body}");
     }
 
@@ -171,11 +169,6 @@ class ApiService extends GetConnect {
       required body,
       bool showLoader = true,
       bool headerWithToken = true}) async {
-    if (isLogPrint) {
-      log("API :- $url");
-      log("API :- ${isLogPrint.toString()}");
-    }
-
     if (showLoader) {
       ProgressDialogUtils.showProgressDialog(isCancellable: false);
     }
@@ -188,16 +181,23 @@ class ApiService extends GetConnect {
       contentType: contentType,
     );
     if (isLogPrint) {
+      log("API :- $url");
+      log("BODY :- ${body.toString()}");
+      log("STATUS CODE :- ${response.statusCode}");
       log("RESPONSE :- ${response.body}");
     }
 
     if (response.status.hasError) {
       if (showLoader) {
+        isLoading.value = false;
+
         ProgressDialogUtils.hideProgressDialog();
       }
       return response;
     } else {
       if (showLoader) {
+        isLoading.value = false;
+
         ProgressDialogUtils.hideProgressDialog();
       }
       return response;

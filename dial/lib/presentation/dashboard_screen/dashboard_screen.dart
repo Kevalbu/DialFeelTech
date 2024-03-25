@@ -1,6 +1,8 @@
 import 'package:dial/core/app_export.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
+import '../crm_screen/controller/crm_screen_controller.dart';
+import '../dialer_screen/controller/dialer_screen_controller.dart';
 import 'controller/dashbboard_screen_controller.dart';
 
 class DashBoardScreen extends GetWidget<DashBoardScreenController> {
@@ -63,16 +65,21 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                                                     .currentSelectedValue.value,
                                                 title: Text(v.label ?? ''),
                                                 value: v.value ?? '',
-                                                onChanged: (val) {
+                                                onChanged: (val) async {
                                                   debugPrint('VAL = $val');
                                                   controller
                                                       .currentSelectedValue
                                                       .value = val!;
-                                                  PrefUtils.setString(
+                                                  await PrefUtils.setString(
                                                       PrefsKey.selectListId,
                                                       val ?? '');
                                                   controller.selectedListItem
                                                       .value = v.label ?? '';
+                                                  Get.put(DialerScreenController())
+                                                      .oneContactApi();
+                                                  Get.put(CRMScreenController())
+                                                      .getContactApi();
+
                                                   Get.back();
                                                 },
                                               ),
@@ -481,7 +488,11 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontColor: ColorConstant.primaryBlue),
                 ),
                 onTap: () {
-                  controller.rechurnListApi();
+                  Get.back();
+                  controller.dispositionList.clear();
+                  controller.dispositionIdList.clear();
+                  dispositionList(context);
+                  // controller.rechurnListApi();
                 },
               ),
               ListTile(
@@ -513,7 +524,8 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontColor: ColorConstant.primaryBlue),
                 ),
                 onTap: () {
-                  controller.emptyListApi();
+                  Get.back();
+                  showConfirmDeleteBox(context, false);
                 },
               ),
               ListTile(
@@ -530,7 +542,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                       fontColor: ColorConstant.red),
                 ),
                 onTap: () {
-                  controller.deleteListApi();
+                  Get.back();
+                  showConfirmDeleteBox(context, true);
+                  // controller.deleteListApi();
                 },
               ),
               Padding(
@@ -552,6 +566,238 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
             ],
           );
         });
+  }
+
+  dispositionList(BuildContext context) {
+    controller.getDispositionApi();
+    return showModalBottomSheet(
+        backgroundColor: ColorConstant.primaryWhite,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: getHeight(15), horizontal: getWidth(20)),
+                  child: Text(
+                    AppString.resetStatus,
+                    style:
+                        DL.styleDL(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                SizedBox(
+                  height: getHeight(400),
+                  child: Obx(
+                    () => controller.dLoading.value
+                        ? Center(
+                            child: SizedBox(
+                              height: getHeight(25),
+                              width: getHeight(25),
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                                color: ColorConstant.primaryBlue,
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.dispositionList.value.length,
+                            itemBuilder: (_, int index) {
+                              return Card(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: getWidth(16),
+                                    vertical: getHeight(5)),
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: Obx(
+                                  () => CheckboxListTile(
+                                    title: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: getWidth(10),
+                                          backgroundColor:
+                                              ColorConstant.fromHex(controller
+                                                      .dispositionList[index]
+                                                      .color ??
+                                                  ''),
+                                        ),
+                                        SizedBox(
+                                          width: getWidth(15),
+                                        ),
+                                        Text(controller
+                                                .dispositionList[index].name ??
+                                            ''),
+                                      ],
+                                    ),
+                                    value: controller.dispositionIdList
+                                        .contains(controller
+                                                .dispositionList[index].id ??
+                                            ''),
+                                    activeColor: ColorConstant.primaryBlue,
+                                    onChanged: (_) {
+                                      if (controller.dispositionIdList.contains(
+                                          controller
+                                                  .dispositionList[index].id ??
+                                              '')) {
+                                        controller.dispositionIdList.remove(
+                                            controller.dispositionList[index]
+                                                    .id ??
+                                                ''); // unselect
+                                      } else {
+                                        controller.dispositionIdList.add(
+                                            controller.dispositionList[index]
+                                                    .id ??
+                                                ''); // select
+                                      }
+                                      setState(() {});
+                                      controller.dispositionIdList.refresh();
+                                    },
+                                    controlAffinity:
+                                        ListTileControlAffinity.platform,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ),
+                SizedBox(
+                  height: getHeight(15),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
+                  child: AppElevatedButton(
+                    buttonName: AppString.submit,
+                    onPressed: () {
+                      controller.rechurnSubmit();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AppElevatedButton(
+                          buttonName: AppString.reset,
+                          buttonColor: ColorConstant.primaryWhite,
+                          hasGradient: false,
+                          borderColor: ColorConstant.greyText,
+                          textColor: ColorConstant.primaryBlue,
+                          onPressed: () {
+                            controller.rechurnReset();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: getWidth(20),
+                      ),
+                      Expanded(
+                        child: AppElevatedButton(
+                          buttonName: AppString.cancel,
+                          buttonColor: ColorConstant.primaryWhite,
+                          hasGradient: false,
+                          borderColor: ColorConstant.greyText,
+                          textColor: ColorConstant.red,
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+  showConfirmDeleteBox(BuildContext context, bool isDelete) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          surfaceTintColor: ColorConstant.primaryWhite,
+          backgroundColor: ColorConstant.primaryWhite,
+          insetPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: getHeight(15),
+              ),
+              Icon(
+                Icons.info_outline_rounded,
+                color: ColorConstant.orange86,
+                size: getHeight(70),
+              ),
+              SizedBox(
+                height: getHeight(15),
+              ),
+              Text(
+                AppString.areYouSure,
+                textAlign: TextAlign.center,
+                style: DL.styleDL(fontSize: 26, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: getHeight(8),
+              ),
+              Text(
+                isDelete ? AppString.contactSure : AppString.deleteSure,
+                textAlign: TextAlign.center,
+                style: DL.styleDL(fontSize: 12, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: getHeight(20),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
+              children: [
+                Expanded(
+                  child: AppElevatedButton(
+                    buttonName: AppString.yesDeleteIt,
+                    onPressed: () {
+                      if (isDelete) {
+                        controller.deleteListApi();
+                      } else {
+                        controller.emptyListApi();
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: getWidth(10),
+                ),
+                Expanded(
+                  child: AppElevatedButton(
+                    buttonName: AppString.cancel,
+                    buttonColor: ColorConstant.primaryWhite,
+                    hasGradient: false,
+                    borderColor: ColorConstant.greyText,
+                    textColor: ColorConstant.red,
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   showDialogAddList(BuildContext context) {

@@ -4,6 +4,7 @@ class AppString {
   static const String selectHere = "Select here";
   static const String yes = "Yes";
   static const String retry = 'Retry';
+  static const String logout = 'Logout';
 
   static const String dial = 'Dial';
   static const String disposeCall = 'Dispose call';
@@ -11,18 +12,27 @@ class AppString {
   static const String login = 'Login';
   static const String loginC = 'LOGIN';
   static const String password = 'Password';
+  static const String submit = 'Submit';
+  static const String reset = 'Reset';
   static const String name = 'Name';
   static const String email = 'Email';
   static const String companyName = 'Company name';
   static const String phoneNumberSecondary = 'Secondary Phone number';
   static const String phoneNumber = 'Phone number';
   static const String address = 'Address';
+  static const String areYouSure = 'Are you sure?';
+  static const String yesDeleteIt = 'Yes, delete it!';
+  static const String contactSure =
+      'This will delete the list and all it\'s contacts';
+  static const String deleteSure = 'This will delete all contacts of this list';
+  static const String selectCallStatus = 'Please select call status';
   static const String leadScore = 'Lead Score';
   static const String dealValue = 'Deal Value';
   static const String qualification = 'Qualification';
   static const String extra = 'Extra';
   static const String save = 'Save';
   static const String list = 'List';
+  static const String resetStatus = 'Reset call status to NEW';
   static const String ne0w = 'New';
   static const String rechurn = 'Rechurn';
   static const String note = 'Note';
@@ -70,6 +80,7 @@ class AppString {
   static const String enterAddress = 'Please Enter Address';
   static const String enterCompany = 'Please Enter Company';
   static const String enterDealValue = 'Please Enter Deal Value';
+  static const String emptyContact = 'Contact List Is Empty.';
   static const String exit = "Tap one more time to exit.";
   static const String enterNameList = "Enter a name for the list";
   static const String enterNameValidate = "Enter a name for the list";

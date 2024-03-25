@@ -49,7 +49,7 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                           ),
                           child: Center(
                             child: Text(
-                              'NA',
+                              '${controller.name.value[0].toUpperCase()}${controller.name.value[1].toUpperCase()}',
                               style: DL.styleDL(
                                 fontSize: (40),
                                 fontColor: ColorConstant.primaryWhite,
@@ -59,7 +59,7 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                           ),
                         ),
                         Text(
-                          'Unknow',
+                          controller.name.value,
                           style: DL.styleDL(
                             fontSize: (15),
                             fontColor: ColorConstant.primaryBlack,
@@ -89,13 +89,13 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                                 borderRadius: BorderRadius.circular(40),
                                 color: ColorConstant.primaryBlue,
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.phone_callback,
                                 color: ColorConstant.primaryWhite,
                               ),
                             ),
                             Text(
-                              '1234567890',
+                              controller.number.value,
                               style: DL.styleDL(
                                 fontSize: (15),
                                 fontColor: ColorConstant.primaryBlack,
@@ -120,7 +120,7 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                 SizedBox(height: getHeight(10)),
                 Center(
                   child: Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 10), // Adjust padding as needed
                     decoration: BoxDecoration(
                       borderRadius:
@@ -248,6 +248,12 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                               String formattedDateTime =
                                   DateFormat('yyyy-MM-dd hh:mm a')
                                       .format(pickedDate);
+                              String formattedDateTime1 =
+                                  DateFormat('yyyy-MM-dd hh:mm a')
+                                      .format(pickedDate);
+
+                              print('121212  ${pickedDate}');
+                              print(pickedTime);
                               controller.dateInput.text = formattedDateTime;
                             }
                           }
@@ -255,15 +261,15 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                         controller: controller.dateInput,
 
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 5,
                           ), // Adjust vertical padding
-                          prefixIcon: Icon(Icons.date_range),
+                          prefixIcon: const Icon(Icons.date_range),
                           suffixIcon: InkWell(
                             onTap: () {
                               controller.dateInput.clear();
                             },
-                            child: Icon(Icons.close),
+                            child: const Icon(Icons.close),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -294,7 +300,7 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                   padding: EdgeInsets.zero,
                   child: FlutterSlider(
                     handler: FlutterSliderHandler(
-                        child: Icon(
+                        child: const Icon(
                       Icons.emoji_emotions,
                       color: ColorConstant.yellow,
                     )),
@@ -324,7 +330,8 @@ class CallDialDetailScreen extends GetWidget<CallDialDetailScreenController> {
                     icon: Icons.save,
                     buttonName: 'SAVE',
                     onPressed: () {
-                      Get.toNamed(AppRoutes.callDialDetailScreenRout);
+                      controller.save();
+                      // Get.toNamed(AppRoutes.callDialDetailScreenRout);
                     }),
               ],
             ),
