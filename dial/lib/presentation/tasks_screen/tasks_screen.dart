@@ -1,3 +1,4 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:dial/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -102,7 +103,9 @@ class TaskScreen extends GetWidget<TaskScreenController> {
           SizedBox(
             height: getHeight(40),
           ),
-          SizedBox(
+
+          /// horizontal ListView DateTime
+          /* SizedBox(
             height: getHeight(100),
             child: ListView.builder(
               shrinkWrap: true,
@@ -184,6 +187,63 @@ class TaskScreen extends GetWidget<TaskScreenController> {
                   ),
                 );
               },
+            ),
+          ),*/
+
+
+          TextFormField(
+            readOnly: true,
+            textAlign: TextAlign.center, // Center align the text
+            onTap: () async {
+              DateTimeRange? pickedDate = (await showRangePickerDialog (
+                context: context,
+                initialDate: DateTime.now(),
+                minDate: DateTime(2020, 10, 10),
+                maxDate: DateTime(2024, 10, 30),
+              )) ;
+
+              if (pickedDate != null) {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        colorScheme: const ColorScheme.light(
+                          primary: ColorConstant
+                              .primaryBlue, // OK button color
+                          onPrimary: ColorConstant
+                              .primaryWhite, // Text color of OK button
+                          surface: ColorConstant
+                              .primaryWhite, // Cancel button color
+                          onSurface: ColorConstant
+                              .primaryBlack, // Text color of Cancel button
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
+                );
+
+
+              }
+            },
+            controller: controller.dateInput,
+
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 5,
+              ), // Adjust vertical padding
+              prefixIcon: Icon(Icons.date_range),
+              suffixIcon: InkWell(
+                onTap: () {
+                  controller.dateInput.clear();
+                },
+                child: Icon(Icons.close),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
           SizedBox(
