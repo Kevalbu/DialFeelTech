@@ -1,6 +1,8 @@
 import '../../../core/app_export.dart';
 
 class TaskScreenController extends GetxController {
+  TextEditingController dateInput = TextEditingController();
+
   RxInt selectedContacts = 0.obs;
   RxInt selectDate = 0.obs;
   void changeContact(int index) {
