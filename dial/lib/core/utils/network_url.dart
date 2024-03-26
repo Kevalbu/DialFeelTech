@@ -13,4 +13,5 @@ class NetworkUrl {
   static const String recordCallUrl = '$baseUrl/api/v1/Contact/record-call/';
   static const String dispositionUrl = '$baseUrl/api/v1/Disposition';
   static const String getTaskUrl = '$baseUrl/api/v1/Task';
+  static const String getEmployeeUrl = '$baseUrl/api/v1/Employee?option=true';
 }

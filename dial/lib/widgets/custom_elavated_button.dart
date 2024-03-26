@@ -88,7 +88,7 @@ class AppElevatedButton extends StatelessWidget {
                   Text(
                     buttonName.toString(),
                     style: DL.styleDL(
-                      fontSize: getFontSize(fontSize ?? 10),
+                      fontSize: getFontSize(fontSize ?? 12),
                       fontColor: textColor ?? ColorConstant.primaryWhite,
                       fontWeight: fontWeight ?? FontWeight.w500,
                     ),
