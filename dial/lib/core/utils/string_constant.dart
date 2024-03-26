@@ -10,6 +10,7 @@ class AppString {
   static const String dial = 'Dial';
   static const String addCalendar = 'Add To Calender';
   static const String setReminder = 'Set Reminder';
+  static const String contactEmpty = 'Contact list is empty.';
   static const String remindon = 'Remind on ';
   static const String selectStatus = 'Select status';
   static const String selectRemind = 'Please select remind on';

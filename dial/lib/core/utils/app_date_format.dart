@@ -20,12 +20,15 @@ class AppDateFormats {
   static const String DATE_FORMAT_D = "d";
   static const String DATE_FORMAT_MMM = "MMM";
   static const String DATE_FORMAT_HH_MM_A = "hh:mm a";
+  static const String DATE_FORMAT_HH_MM_A_N = "hh:mm \na";
+
   static const String DATE_FORMAT_HH_MM_SS = "HH:mm:ss";
   static const String DATE_FORMAT_HH_MM = "HH:mm";
   static const String DATE_FORMAT_EE = "EE";
   static const dateFormater_with_th_do_mmmm_yyyy_hh_mm = "do MMM, yyyy";
   static const String APP_PLAN_DATE_FORMAT_EE = "| EE | dd MMM";
   static const String APP_PLAN_DATE_FORMAT_MMM = "MMM dd,yyyy HH:mm a";
+  static const String APP_PLAN_DATE_FORMAT_MMM_DD = "dd MMM, HH:mm:ss a";
 }
 
 // String dateToAgoFormat(String dateTime, String inputFormat) {

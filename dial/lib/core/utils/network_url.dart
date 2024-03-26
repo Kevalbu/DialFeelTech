@@ -12,4 +12,5 @@ class NetworkUrl {
   static const String skipUrl = '$baseUrl/api/v1/Contact/communication/';
   static const String recordCallUrl = '$baseUrl/api/v1/Contact/record-call/';
   static const String dispositionUrl = '$baseUrl/api/v1/Disposition';
+  static const String getTaskUrl = '$baseUrl/api/v1/Task';
 }

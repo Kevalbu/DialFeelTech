@@ -134,13 +134,18 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                 Obx(
                   () => controller.pages[controller.tabIndex.value],
                 ),
-                Obx(() => controller.tabIndex.value == 0
+                Obx(() => controller.tabIndex.value == 0 ||
+                        controller.tabIndex.value == 2
                     ? Positioned(
                         bottom: 17,
                         right: 17,
                         child: InkWell(
                           onTap: () {
-                            Get.toNamed(AppRoutes.customDialerScreenRout);
+                            if (controller.tabIndex.value == 0) {
+                              Get.toNamed(AppRoutes.customDialerScreenRout);
+                            } else {
+                              Get.toNamed(AppRoutes.addTaskScreenRout);
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -148,7 +153,9 @@ class DashBoardScreen extends GetWidget<DashBoardScreenController> {
                                 color: ColorConstant.primaryBlue),
                             padding: EdgeInsets.all(10),
                             child: Icon(
-                              Icons.call,
+                              controller.tabIndex.value == 0
+                                  ? Icons.call
+                                  : Icons.add,
                               color: ColorConstant.primaryWhite,
                               size: getHeight(30),
                             ),

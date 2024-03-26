@@ -50,8 +50,8 @@ dependencies:
   flutter_expandable_fab: ^2.0.0
   flutter_phone_direct_caller: ^2.1.1
   dropdown_button2: ^2.3.9
-  date_picker_plus: ^2.1.0
   flutter_xlider: ^3.5.0
+  calendar_date_picker2: ^0.5.5
 
 dev_dependencies:
   flutter_test:

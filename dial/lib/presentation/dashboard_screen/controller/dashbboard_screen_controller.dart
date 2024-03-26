@@ -10,6 +10,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import '../../../core/app_export.dart';
 import '../../call_dial_detail_screen/models/disposition_model.dart';
 import '../../crm_screen/controller/crm_screen_controller.dart';
+import '../../tasks_screen/controller/tasks_screen_controller.dart';
 
 class DashBoardScreenController extends GetxController {
   var tabIndex = 0.obs;
@@ -45,6 +46,10 @@ class DashBoardScreenController extends GetxController {
     }
     if (index == 1) {
       Get.put(CRMScreenController()).getContactApi();
+    }
+    if (index == 2) {
+      Get.put(TaskScreenController()).getCurrentDate();
+      Get.put(TaskScreenController()).getTaskApi();
     }
   }
 
